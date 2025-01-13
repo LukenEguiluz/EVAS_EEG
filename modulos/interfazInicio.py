@@ -1,6 +1,7 @@
 import sys
 from PyQt6 import QtWidgets, QtGui, QtCore
 from modulos.grabar import GrabarWidget
+from modulos.reproducir import ReproducirWidget  # Importar el nuevo widget
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -45,8 +46,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.logo3 = QtWidgets.QLabel(self)
         self.setLogo(self.logo3, 'images/Logo EVAS.png', 740, 540)
 
-        # Conectar el botón Grabar a la función para mostrar los dropdowns
-        self.recordButton.clicked.connect(self.showDropdowns)
+        # Conectar los botones a sus funciones
+        self.recordButton.clicked.connect(self.ventanaGrabar)
+        self.playButton.clicked.connect(self.ventanaReproducir)  # Nueva conexión
 
     def setLogo(self, label, imagePath, x, y):
         pixmap = QtGui.QPixmap(imagePath)
@@ -56,13 +58,30 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             print(f"Error: No se pudo cargar la imagen {imagePath}")
 
-    def showDropdowns(self):
-        # Cambiar al widget de grabación
+    def ventanaGrabar(self):
+        # Esconder el widget central
+        self.centralWidget.hide()
+        # Mostrar el widget de grabación
         self.grabarWidget = GrabarWidget(self)
         self.setCentralWidget(self.grabarWidget)
 
+    def ventanaReproducir(self):
+        # Esconder el widget central
+        self.centralWidget.hide()
+        # Mostrar el widget de reproducción
+        self.reproducirWidget = ReproducirWidget(self)
+        self.setCentralWidget(self.reproducirWidget)
+
     def showMainMenu(self):
-        # Restaurar el widget central original
+        # Esconder el widget de grabación o reproducción
+        # if hasattr(self, 'grabarWidget'):
+        #     self.grabarWidget.hide()
+        # if hasattr(self, 'reproducirWidget'):
+        #     self.reproducirWidget.hide()
+
+        self.initUI()
+        # Mostrar el widget central
+        self.centralWidget.show()
         self.setCentralWidget(self.centralWidget)
 
 if __name__ == '__main__':
