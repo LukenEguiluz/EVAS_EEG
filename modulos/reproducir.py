@@ -1,6 +1,7 @@
 import json
 import serial.tools.list_ports
 from PyQt6 import QtWidgets
+from modulos.livePlot import PlotWindow  # Importar PlotWindow
 
 class ReproducirWidget(QtWidgets.QWidget):
     def __init__(self, mainWindow):
@@ -40,6 +41,7 @@ class ReproducirWidget(QtWidgets.QWidget):
 
         # Botón para iniciar la reproducción
         self.startPlaybackButton = QtWidgets.QPushButton('Iniciar Reproducción')
+        self.startPlaybackButton.clicked.connect(self.startPlayback)
         layout.addWidget(self.startPlaybackButton)
 
         # Botón para regresar al inicio
@@ -74,6 +76,10 @@ class ReproducirWidget(QtWidgets.QWidget):
             comboBox.addItems(self.getSerialPorts())
             originalShowPopup()
         return showPopup
+
+    def startPlayback(self):
+        self.plotWindow = PlotWindow('Reproducción en Vivo')
+        self.plotWindow.show()
 
     def returnToMainMenu(self):
         # Ocultar el widget de reproducción y mostrar el menú principal

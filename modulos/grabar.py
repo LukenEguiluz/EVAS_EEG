@@ -1,5 +1,6 @@
 import serial.tools.list_ports
 from PyQt6 import QtWidgets
+from modulos.livePlot import PlotWindow  # Importar PlotWindow
 
 class GrabarWidget(QtWidgets.QWidget):
     def __init__(self, mainWindow):
@@ -33,6 +34,7 @@ class GrabarWidget(QtWidgets.QWidget):
 
         # Botón para iniciar la grabación
         self.startRecordingButton = QtWidgets.QPushButton('Iniciar Grabación')
+        self.startRecordingButton.clicked.connect(self.startRecording)
         dropdownLayout.addWidget(self.startRecordingButton)
 
         # Botón para regresar al inicio
@@ -53,6 +55,10 @@ class GrabarWidget(QtWidgets.QWidget):
             comboBox.addItems(self.getSerialPorts())
             originalShowPopup()
         return showPopup
+
+    def startRecording(self):
+        self.plotWindow = PlotWindow('Grabación en Vivo')
+        self.plotWindow.show()
 
     def returnToMainMenu(self):
         # Ocultar el widget de grabación y mostrar el menú principal

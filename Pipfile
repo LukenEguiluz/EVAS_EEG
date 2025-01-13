@@ -4,6 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "==2.2.1"
+pyqt6 = "==6.8.0"
+pyqt6-sip = "==13.9.1"
+pyqtgraph = "==0.13.7"
+pyserial = "==3.5"
 
 [dev-packages]
 
